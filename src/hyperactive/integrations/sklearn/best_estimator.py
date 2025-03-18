@@ -38,7 +38,9 @@ class BestEstimator:
 
     @available_if(_estimator_has("decision_function"))
     def decision_function(self, X):
-        check_is_fitted(self)
+        # Pre-fetch fitted check to avoid repeated calls
+        if not hasattr(self, "best_estimator_"):
+            check_is_fitted(self)
         return self.best_estimator_.decision_function(X)
 
     @available_if(_estimator_has("transform"))
