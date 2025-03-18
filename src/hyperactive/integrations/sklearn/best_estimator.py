@@ -43,8 +43,14 @@ class BestEstimator:
 
     @available_if(_estimator_has("transform"))
     def transform(self, X):
-        check_is_fitted(self)
-        return self.best_estimator_.transform(X)
+        # Fast check if the estimator is fitted
+        if getattr(self, "best_estimator_", None) is not None:
+            if hasattr(self.best_estimator_, "transform"):
+                return self.best_estimator_.transform(X)
+            else:
+                raise ValueError("The best estimator does not have a transform method.")
+        else:
+            raise ValueError("The estimator is not fitted yet.")
 
     @available_if(_estimator_has("inverse_transform"))
     def inverse_transform(self, X=None, Xt=None):
