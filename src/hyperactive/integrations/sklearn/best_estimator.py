@@ -49,7 +49,8 @@ class BestEstimator:
     @available_if(_estimator_has("inverse_transform"))
     def inverse_transform(self, X=None, Xt=None):
         X = _deprecate_Xt_in_inverse_transform(X, Xt)
-        check_is_fitted(self)
+        # Perform check once and use the best_estimator's inverse_transform directly
+        check_is_fitted(self, attributes=["best_estimator_"])
         return self.best_estimator_.inverse_transform(X)
 
     @property
