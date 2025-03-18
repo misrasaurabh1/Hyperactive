@@ -23,7 +23,8 @@ class BestEstimator:
 
     @available_if(_estimator_has("predict"))
     def predict(self, X):
-        check_is_fitted(self)
+        # Ensure that the model is fitted before predicting
+        check_is_fitted(self, attributes=["best_estimator_"])
         return self.best_estimator_.predict(X)
 
     @available_if(_estimator_has("predict_proba"))
